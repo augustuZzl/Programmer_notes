@@ -1,2 +1,3 @@
-# Java-Development-Learning-Notes
-Java 开发学习笔记
+在线观看：[https://augustuzzl.github.io/Java-Development-Learning-Notes/](<https://augustuzzl.github.io/Java-Development-Learning-Notes/>)
+
+使用 docsify 制作的学习记录笔记
