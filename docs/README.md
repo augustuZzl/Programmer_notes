@@ -5,7 +5,7 @@
 - [Java 8 新特性](notebook/Java8新特性/)
 - [Java 面试](notebook/Java面试/)
 
-### 算法
+### 数据结构与算法
 
-- [LeetCode](notebook/LeetCode/)
 - [数据结构](notebook/数据结构/)
+- [排序](notebook/排序/)
