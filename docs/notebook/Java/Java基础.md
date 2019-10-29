@@ -204,6 +204,113 @@ public final class String
 
 #### String Pool
 
+`JVM` 为了提升性能和减少内存开销，避免字符串的重复创建，所维护的一块特殊的内存空间
+
 字符串常量池保存着所有字符串字面量，这些字面量在编译时期就确定了。不仅如此，还可以使用 `String` 的 `intern()` 方法在运行时期将字符串添加进去。
 
 当一个字符串调用 `intern()` 方法时，如果 `String Pool` 中已经存在一个字符串和该字符串值相等（使用 `equals()` 方法进行确定），那么就会返回 `String Pool` 中字符串的引用；否则，就会在 `String Pool` 中添加一个新的字符串，并返回这个新字符串的引用。
+
+```java
+String s1 = new String("aaa");
+String s2 = new String("aaa");
+System.out.println(s1 == s2);           // false
+String s3 = s1.intern();
+String s4 = s1.intern();
+System.out.println(s3 == s4);           // true
+```
+
+如果是采用 "bbb" 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中
+
+```java
+String s5 = "bbb";
+String s6 = "bbb";
+System.out.println(s5 == s6);  // true
+```
+
+在 `Java 7` 之前，`String Pool` 被放在运行时常量池中，它属于永久代。而在 `Java 7`，`String Pool` 被移到堆中。这是因为永久代的空间有限，在大量使用字符串的场景下会导致 `OutOfMemoryError` 错误。
+
+![](<https://images2018.cnblogs.com/blog/1031933/201808/1031933-20180813222315549-299937191.png>)
+
+#### new String("abc")
+
+使用这种方式一共会创建两个字符串对象（前提是 `String Pool` 中还没有 `"abc"` 字符串对象）
+
+- `"abc"` 属于字符串字面量，因此编译时期会在 `String Pool` 中创建一个字符串对象，指向这个 `"abc"` 字符串字面量
+- 使用 `new` 会在对堆中创建一个字符串对象
+
+以下是 `String` 构造函数的源码：在使用一个字符串对象作为构造函数的参数时，指向的是同一个 `value` 数组
+
+```java
+public String(String original) {
+    this.value = original.value;
+    this.hash = original.hash;
+}
+```
+
+编写一个测试类，使用这种方法创建一个字符串对象
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String s = new String("abc");
+    }
+}
+```
+
+使用 `javap -v Main` 反编译：
+
+```
+Constant pool:
+   ...
+   #2 = Class              #16            // java/lang/String
+   #3 = String             #17            // abc
+   ...
+  #16 = Utf8               java/lang/String
+  #17 = Utf8               abc
+   ...
+
+public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=2, args_size=1
+         0: new           #2                  // class java/lang/String
+         3: dup
+         4: ldc           #3                  // String abc
+         6: invokespecial #4                  // Method java/lang/String."<init>":(Ljava/lang/String;)V
+         9: astore_1
+	...
+```
+
+在 `Constant pool` 中 `#17` 存储字符串的字面量 `"abc"`，`#3` 是字符串常量池中的字符串对象，他指向 `#17` 这个字符串字面量。在 `main` 方法中，`0：`使用 `new`  在堆中创建了一个字符串对象，并使用 `ldc #3` 这个在常量池中的字符串作为构造参数。
+
+#### StringBuilder & StringBuffer
+
+1. 两者与 `String` 不同，都是可变的
+2. 线程安全
+   1. `String` 不可变，线程安全
+   2. `StringBuilder` 线程不安全
+   3. `StringBuffer` 内部使用 `synchronized` 进行同步，线程安全
+
+#### 问题一
+
+判断一下字符串对象是否相等：
+
+```java
+String s1 = "abc";
+String s2 = "a" + "b" + "c";
+String temp1 = "ab";
+final String temp2 = "ab";
+String s3 = temp1 + "c";
+String s4 = temp2 + "c";
+
+// result
+System.out.println(s1 == s2);	// true
+System.out.println(s1 == s3);	// false
+System.out.println(s1 == s4);	// true
+```
+
+- 字符串字面量的拼接操作是在**编译期**就已经完成的了，所以 `s2` 直接作为 `abc` 放入常量池中了
+- 字符串引用的拼接是在**运行期**完成的，他会在堆中创建字符串对象，所以 `s3` 引用的是堆中的对象
+- `temp2` 被 `final` 修饰，那么在编译期就直接被替换为 `"ab"` 了，所以 `s4` 的情况就与 `s2` 一样了
+
