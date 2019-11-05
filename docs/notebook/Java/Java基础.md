@@ -314,3 +314,45 @@ System.out.println(s1 == s4);	// true
 - 字符串引用的拼接是在**运行期**完成的，他会在堆中创建字符串对象，所以 `s3` 引用的是堆中的对象
 - `temp2` 被 `final` 修饰，那么在编译期就直接被替换为 `"ab"` 了，所以 `s4` 的情况就与 `s2` 一样了
 
+### 运算
+
+#### 参数传递
+
+`Java` 的参数是以值传递的形式传入方法中，而不是引用传递，看下面例子：
+
+`dog` 是一个指针，指向 `Dog` 对象的地址。在将其作为一个参数传入方法时，实际上是将对象的地址以值的方式传递到方法的参数 `dog` 中，此时两个 `dog` 指针，都指向同一个对象，所以打印结果不变。在方法内这个 `dog` 指针又指向了 `new Dog("B")` 这个对象，此时这两个指针指向不同的对象，互不影响。
+
+```java
+public class Main {
+	
+	static class Dog {
+		
+		String name;
+		
+		Dog(String name){
+			this.name = name;
+		}
+		
+	}
+	
+	private static void fun(Dog dog) {
+		System.out.println(dog);	// Main$Dog@15db9742
+		System.out.println(dog.name);	// A
+		dog = new Dog("B");
+		System.out.println(dog);	// Main$Dog@6d06d69c
+		System.out.println(dog.name);	// B
+	}
+	
+	public static void main(String[] args) {
+		Dog dog = new Dog("A");
+		System.out.println(dog);	// Main$Dog@15db9742
+		fun(dog);
+		System.out.println(dog);	// Main$Dog@15db9742
+		System.out.println(dog.name);	// A
+	}
+	
+}
+```
+
+![](pic\参数传递.png)
+
