@@ -1,0 +1,346 @@
+### What's three.js
+
+#### WebGL
+
+WebGL 是一种在浏览器中流畅展示 3D 模型和场景的一种技术。
+
+浏览器实现了 OpenGL ES 规范，这套规范可以使用 JavaScript 操作显卡，使显卡渲染 3D 世界，显示在浏览器中。游戏、家居、虚拟现实、城市制图、CAD制图等等都可以做。
+
+#### Three.js
+
+Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。WebGL 的 API 较底层、抽象。
+
+官方文档：  https://threejs.org/ 
+
+### Four Components
+
+#### 一：场景 Scene
+
+场景就是舞台，你可以把任何东西放到场景的任何位置。用来容纳所有的 3D 对象。
+
+`Three.Scene()`
+
+#### 二：相机 Camera
+
+浏览器中所显示的就是相机所拍摄的场景
+
+1. 透视相机：类似于人眼，观察的事物是远大近小的： THREE.PerspectiveCamera 
+
+   `THREE.PersrectiveCamera(fov, aspect, near, far)`
+
+   - fov：可以理解为视角，显示的场景范围，当为 0 时，可以理解为闭眼；一般人的视角是 45 **度**左右
+   - aspect：几乎总是宽度比高度。就比如显示器总是宽的，手机看视频也要横过来一样
+   - near、far 近远平面：意味着比这个 near 更近或者比 far 更远的将不会被渲染
+
+   例：`var camers = new THREE.PersrectiveCamera(40, width/heigth, 1, 100);`
+
+   表示视角为 40 度，充满整个窗口，最近看的距离为 1，最远能看到 100
+
+2. 正投影相机：远近一样大： THREE.OrthographicCamera 
+
+   ` THREE.OrthographicCamera( left, right, top, bottom, near, far ) `
+
+   这六个参数形成一个长方体，很好理解了
+
+#### 三：渲染器 Renderer
+
+如何将场景渲染到屏幕上。计算的过程就叫做渲染。
+
+`THREE.WebGLRenderer()`
+
+#### 四：几何体 Object
+
+即场景中的对象模型
+
+### Hello World
+
+#### 设置页面
+
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first Demo</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="three.js"></script>
+		<script>
+			// Our Javascript will go here.
+		</script>
+	</body>
+</html>
+```
+
+- three.js 程序渲染的场景实际上是通过 Canvas 画在浏览器上的
+
+#### 创建场景
+
+现在需要这三个组件 scene、camera、renderer：render the scene width camera
+
+```javascript
+// 场景
+var scene = new THREE.Scene();
+// 相机
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+// 渲染器
+var renderer = new THREE.WebGLRenderer();
+// 设置渲染的范围
+renderer.setSize(window.innerWidth, window.innerHeight);
+// 将渲染的场景放到 html 页面中
+document.body.appendChild(renderer.domElement);
+```
+
+- setSize(width / 2, height / 2)：只渲染整个 Canvas 容器左上角 1/4 部分
+- setSize(width / 2, height / 2, false)：也会渲染正给我 Canvas 容器，只不过这就像是拉伸充满的，分辨率( resolution )较低（即显得模糊）。这在考虑性能的应用中起一些作用
+- renderer.domElement：即 canvas 标签
+
+#### 添加几何体
+
+```javascript
+// 立方体
+var geometry = new THREE.BoxGeometry(1, 1, 1);
+// 材质
+var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// 网格对象：将材质应用到几何体上。作为一个物体加入到场景中
+var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+camera.position.z = 5;
+```
+
+- 当调用  add(cube) 时，物体会被放到坐标系的 (0, 0, 0) 原点上，而相机也默认在这个位置。所以此处我们将相机移动到了 z = 5 这个位置
+
+#### 渲染场景
+
+```javascript
+(function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+})();
+```
+
+- render(scene, camera)：调用这句话就可以在浏览器中渲染结果了
+- 我们通过 cube.rotation 不断地旋转物体，形成一个动态的效果，所以要不断刷新屏幕，通过 requestAnimationFrame 不断调用自己实现，他会一分钟刷新 60 次
+- 为什么不用 setInterval 来实现呢：requestAnimationFrame 会在切换标签页后停止运行，节省性能
+
+#### result
+
+```html
+<html>
+	<head>
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="three.js"></script>
+		<script>
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			var cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+
+			camera.position.z = 5;
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
+```
+
+### Point、Line、Surface
+
+#### Coordinate
+
+threejs 使用右手坐标系，即 x 轴向右，y 轴向上，z 轴从屏幕指向你
+
+#### Point
+
+先看 threejs 对点函数的定义：
+
+```javascript
+function Vector3( x, y, z ) {
+
+    this.x = x || 0;
+    this.y = y || 0;
+    this.z = z || 0;
+
+}
+```
+
+可以看到如果不传入坐标，那么默认坐标（0，0，0），现在创建一个点：
+
+```javascript
+var point1 = new THREE.Vector3(1, 2, 3);
+
+var point2 = new THREE.Vector3();
+point2.set(1, 2, 4);
+```
+
+#### Line
+
+我们知道两点确定一条直线，下面就来绘制线
+
+First we need to set up the scene, camera and renderer.
+
+```javascript
+// 创建场景
+var scene = new THREE.Scene();
+
+// 创建透视相机
+var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
+// 设置相机位置
+camera.position.set(0, 0, 100);
+// 镜头看向哪里
+camera.lookAt(0, 0, 0);
+
+// 创建渲染器(抗锯齿)
+var renderer = new THREE.WebGLRenderer({ antialias: true });
+// 设置渲染范围
+renderer.setSize(window.innerWidth, window.innerHeight);
+// 渲染在 dom 上
+document.body.appendChild(renderer.domElement);
+```
+
+Next thing we will do is define a metrial. For line we have to use **LineBasicMaterial** or **LineDashedMaterial**.
+
+```javascript
+// 材质
+var material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+```
+
+LineBasicMaterial() 有多个参数，不只 color 一个：
+
+- color：线条的颜色，默认是白色
+- linewidth：线条的宽度，默认是 1
+- linecap：线条两端的外观，默认是圆角。在线条较粗的时候才能看见
+- linejoin：两条线连接点处的外观，默认是圆角
+
+After material we need a **Geometry** or **BufferGeometry** with some vertices(顶点), BufferGeometry may be more performant, but for simplicity we use Geometry.
+
+ ```javascript
+// 形状
+var geometry = new THREE.Geometry();
+// 顶点
+geometry.vertices.push(new THREE.Vector3(-10, 0, 0));
+geometry.vertices.push(new THREE.Vector3(0, 10, 0));
+geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+ ```
+
+Note that lines are drawn between each consecutive(连续的) pair of vertices.
+
+Now that we have points for two lines and a material, we can put them together to form a line. 
+
+`var line = new THREE.Line(geometry, material);`
+
+**All that's left**(剩下的一切) is to add it to the scene and call render:
+
+```javascript
+scene.add(line);
+renderer.render(scene, camera);
+```
+
+Over, open in browser.
+
+#### Surface
+
+画一个棋盘
+
+```javascript
+var renderer, camera, scene, light, cube;
+var width = window.innerWidth, height = window.innerHeight;
+
+function initRenderer() {
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    document.body.appendChild(renderer.domElement);
+    // 设置背景颜色，0xffffff 白色，1.0 表示透明度
+    renderer.setClearColor(0xffffff, 1.0);
+}
+function initCamera() {
+    // 可以看到的范围是 1-2000
+    camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000);
+    // 相机在 z 轴的 1500 位置看向原点，所以位于原点处的物体处于 1-2000 范围内，可以看到。改变 1500 这个值，会发现物体会变大变小，很好理解
+    camera.position.set(0, 0, 1500);
+    camera.lookAt(0, 0, 0);
+}
+function initScene() {
+    scene = new THREE.Scene();
+}
+function initObject() {
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3(-500, 0, 0));
+    geometry.vertices.push(new THREE.Vector3(500, 0, 0));
+    for (var i = 0; i <= 20; i++) {
+        // 这两点连成的线平行于 x 轴
+        var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        // 这样最终会形成 21 条平行于 x 轴的线，y 值的范围是[-500, 500]
+        line.position.y = (i * 50) - 500;
+        scene.add(line);
+
+        line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0x000000 }));
+        // 绕 z 轴旋转 90 度，此时平行于 y 轴
+        line.rotation.z = 90 * Math.PI / 180;
+        // 这样最终会形成 21 条平行于 y 轴的线，x 值的范围是[-500, 500]
+        line.position.x = (i * 50) - 500;
+        scene.add(line);
+    }
+}
+// 立即执行函数
+(function(){
+    initRenderer();
+    initCamera();
+    initScene();
+    initObject();
+    renderer.render(scene, camera);
+})();
+```
+
+### Stats
+
+使用帧数（FPS：每秒刷新几次）来监视我们的 3D 应用，一般都为 60 左右，当帧数较低时，就要注意了。
+
+```javascript
+// 需要引入 stats.min.js，路径：three/examples/js/libs
+stats = new Stats();
+stats.setMode(1);	// 显示 FPS 页面
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild(stats.domElement);
+
+function animate(){
+    requestAnimationFrame(animate);
+    ......
+    stats.update();	// 更新当前帧数
+}
+```
+
+
+
+
+
