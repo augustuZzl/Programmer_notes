@@ -2,12 +2,14 @@
 
 - [Java](notebook/Java/)
 - [Golang](notebook/Golang/)
+- [JavaScript](notebook/JavaScript)
 
-### 前端
+### 图形
 
-- [SVG](notebook/Pre/SVG)
-- [Canvas](notebook/Pre/Canvas)
-- [WebGL(threejs)](notebook/Pre/WebGL)
+- [SVG](notebook/Graphical/SVG)
+- [Canvas](notebook/Graphical/Canvas)
+- [WebGL](notebook/Graphical/WebGL)
+- [ThreeJs](notebook/Graphical/threejs)
 
 ### 框架
 

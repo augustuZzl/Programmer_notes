@@ -1,14 +1,6 @@
-### What's three.js
+### Three.js
 
-#### WebGL
-
-WebGL 是一种在浏览器中流畅展示 3D 模型和场景的一种技术。
-
-浏览器实现了 OpenGL ES 规范，这套规范可以使用 JavaScript 操作显卡，使显卡渲染 3D 世界，显示在浏览器中。游戏、家居、虚拟现实、城市制图、CAD制图等等都可以做。
-
-#### Three.js
-
-Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。WebGL 的 API 较底层、抽象。
+Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。
 
 官方文档：  https://threejs.org/ 
 
@@ -340,7 +332,106 @@ function animate(){
 }
 ```
 
+### Power of Light
 
+有了光，就不再黑暗。光的基类 THREE.Light()。下面看实用的派生类：
 
+####  AmbientLight
 
+环境光是经过多次反射而来的光，无法确定其最初的方向，所以所有的物体都将表现为相同的明暗程度。他的构造函数：THREE.AmbientLight(color, intensity)，参数分别是颜色和强度(默认 1，即强度 100%)
+
+```javascript
+var light = new THREE.AmbientLight(0xff0000);
+scene.add(light);
+```
+
+####  PointLight 
+
+这种光源放出的光线来自于同一点，方向辐射四面八方，例如灯泡发出的光。
+
+构造函数：THREE.PointLight(color, intensity, distance); distance 表示光源强度经过 distance 距离逐渐衰减至 0。默认值为 0，即光源强度不衰减。
+
+#### SpotLight
+
+聚光灯，这种光源从椎体射出，在被照射的物体上产生聚光效果。
+
+构造函数：THREE.SpotLight(color, intensity, distance, angle, exponent); angle 表示聚光灯着色的角度，用弧度作为单位，这个角度是和光源的方向形成的角度。exponent 表示光源模型中，衰减的一个参数，越大衰减约快。 
+
+#### 材质与光源
+
+材质与光源是相互联系、相互衬托的关系。离开光，任何材质都是无法体现的，有了材质，才有了色彩、纹理、光滑度、透明度、反射率等。
+
+我们向场景中加入一个立方体，为了看到立体效果，你可能要调一下 camera 的位置
+
+```javascript
+function initObject() {
+    var geometry = new THREE.CubeGeometry(200, 200, 50, 4, 4);
+    var material = new THREE.MeshLambertMaterial({ color: 0xff0000 });
+    var cube = new THREE.Mesh(geometry, material);
+    // cube.position = new THREE.Vector3(0, 0, 0);
+    scene.add(cube);
+}
+```
+
+- THREE.CubeGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) 后面 3 个参数分别表示分段数，默认是 1。
+- THREE.MeshLambertMaterial(color) 兰伯特材质，他是最常见的一种材质，是灰暗的或不光滑的表面产生均匀散射而形成的材质类型，比如一张纸。
+- 我们设置他的颜色为红色，可是运行之后却是黑色，这是因为场景中没有灯光，物体不能反射到人眼中，就像在黑夜里看东西。
+
+这时你加上一个白色的环境光，就能看见红色了：
+
+```javascript
+function initLight() {
+    light = new THREE.AmbientLight(0xffffff);
+    scene.add(light);
+}
+```
+
+#### DirectionalLight
+
+方向光又称平行光，是一种没有衰减的光线，类似于太阳光的效果，构造函数：THREE.DirectionalLight(color, intensity).
+
+我们再把上面场景的环境光改为方向光：光照到的地方变红
+
+```javascript
+function initLight() {
+    light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(0, 0, 1);
+    scene.add(light);
+}
+```
+
+可以不断改变灯光的位置或者光照强度来看看不同的效果。
+
+**Tips**：当场景中有多种光时，颜色会叠加，比如绿光 + 红光 = 黄光
+
+### Texture
+
+在 3D 世界中，纹理就是贴图。先看看复杂的构造函数：
+
+Texture( *image*, *mapping*, *wrapS*, *wrapT*, *magFilter*, *minFilter*, *format*, *type*, *anisotropy*, *encoding* )
+
+- image：是一个图片类型
+- mapping：纹理坐标，一张贴图的左下角坐标为(0, 0)，
+- wrapS、wrapT：分别表示 x、y 轴的纹理回环方式，就是指当纹理宽度小于平面时，剩下的部分怎么贴
+- magFilter、minFilter：表示过滤的方式，
+- format：加载的图片格式，可以取值 THREE.RGBAFormat(默认)、GRGFormat，即是否有透明度
+- type：表示存储纹理的内存的每一个字节的格式，是有符号，还是没有符号等，默认：UnsignedByteType
+- anisotropy： 各向异性过滤。使用各向异性过滤能够使纹理的效果更好，但是会消耗更多的内存、CPU、GPU时间，默认值 1
+
+```javascript
+function initObject() {
+    // 平面
+    var geometry = new THREE.PlaneGeometry(500, 300);
+    // javascript 没有加载本地图片的能力，所以该页面要放在服务器中运行
+    var texture = new THREE.TextureLoader().load('q.png', function(t){
+        console.log(t);	// t 也是返回的 texture
+    });
+    var material = new THREE.MeshBasicMaterial({ map: texture });
+    var cube = new THREE.Mesh(geometry, material);
+    // cube.position = new THREE.Vector3(0, 0, 0);
+    scene.add(cube);
+}
+```
+
+**使用 Canvas 作为纹理**：
 
