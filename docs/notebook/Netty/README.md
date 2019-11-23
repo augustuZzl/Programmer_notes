@@ -3,7 +3,7 @@
 ### 基础
 
 1. [Netty 简介](notebook/Netty/Netty简介)
-2. [第一个 Netty 程序](notebook/Netty/第一个Netty程序)
+2. [第一个 Netty 程序](notebook/Netty/FirstDemo)
 
 ### 实战
 

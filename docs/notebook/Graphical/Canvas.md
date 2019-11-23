@@ -13,7 +13,9 @@
 #### 创建 Canvas 元素
 
 ```html
-<canvas id="myCanvas" width="600px" height="400px">如果浏览器不支持 Canvas, 则显示这条文本</canvas>
+<canvas id="myCanvas" width="600px" height="400px">
+    如果浏览器不支持 Canvas, 则显示这条文本
+</canvas>
 ```
 
 #### 通过 JavaScript 来绘制
@@ -47,9 +49,45 @@ ctx.strokeRect(0, 0, 150, 75);	// 笔触即描边
 #### 绘制线条
 
 ```javascript
-ctx.moveTo(10, 10);
-ctx.lineTo(150, 50);
-ctx.lineTo(10, 50);
+// 绘制一条宽度为 20 的红线
+ctx.strokeStyle = "red";
+ctx.lineWidth = 20;
+ctx.moveTo(100, 100);
+ctx.lineTo(200, 100);
+ctx.stroke();
+```
+
+再来看看下面这个代码：你会认为绘制一条宽 20 的红线和一条宽 40 的蓝线吗？
+
+```javascript
+ctx.strokeStyle = "red";
+ctx.lineWidth = 20;
+ctx.moveTo(100, 100);
+ctx.lineTo(200, 100);
+ctx.stroke();
+
+ctx.strokeStyle = "blue";
+ctx.lineWidth = 40;
+ctx.moveTo(100, 200);
+ctx.lineTo(200, 200);
+ctx.stroke();
+```
+
+答案是否定的，最终结果是两条宽 40 的蓝线，即上一个设置被后一个覆盖了。那该如何解决呢？这就需要 beginPath() 这个函数了，我们可以把它翻译成**开始一个新的状态**，他会保存上一个状态，即红线不会被影响到了。
+
+```javascript
+ctx.strokeStyle = "red";
+ctx.lineWidth = 20;
+ctx.moveTo(100, 100);
+ctx.lineTo(200, 100);
+ctx.stroke();
+
+ctx.beginPath();	// 开始新的状态，会把红色和线宽20继承过来，但自己可以改变值
+
+ctx.strokeStyle = "blue";
+ctx.lineWidth = 40;
+ctx.moveTo(100, 200);
+ctx.lineTo(200, 200);
 ctx.stroke();
 ```
 
@@ -160,7 +198,6 @@ setInterval(function(){
 鼠标移动，出现五彩斑斓的小球：
 
 <iframe src="https://augustuzzl.github.io/code/canvas-balls.html" width="100%" height="420px"></iframe>
-
 ```html
 <!DOCTYPE html>
 <html lang="en">

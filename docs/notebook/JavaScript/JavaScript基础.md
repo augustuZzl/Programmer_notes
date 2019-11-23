@@ -149,8 +149,8 @@ array.reverse();	// 翻转原数组
 array.shift();	// 删除并返回原数组的第一个元素
 array.unshift(item, ...);	// 插入数组头部
 array.slice(start, end);	// 返回这个范围的子数组
-array.aplice(start, end);	// 删除原数组这个范围的元素
-array.sort([fun]);	// 根据可选的排序函数排序，如果没有函数，则默认按照字符顺序比较（注意）
+array.splice(start, deleteCount);	// 删除原数组 start 位置开始的 deleteNum 个元素
+array.sort([fun]);	// 根据可选的排序函数排序，如果没有函数，则默认按照字符顺序比较（注意!!!）
 
 
 ```
