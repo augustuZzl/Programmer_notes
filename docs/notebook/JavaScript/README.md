@@ -2,6 +2,7 @@
 
 - [JavaScript Basic](notebook/JavaScript/JavaScript基础)
 - [JavaScript Advanced](notebook/JavaScript/JavaScript进阶)
+- [ECMAScript](notebook/JavaScript/ECMAScript)
 - [JavaScript Code Style](notebook/JavaScript/JavaScriptStyle)
 
 ### 实战
