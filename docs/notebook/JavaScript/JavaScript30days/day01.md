@@ -62,3 +62,4 @@ window.addEventListener('keydown', playSound);
 ```
 
 - 与官方示例不同的是，我的移除样式事件放在 keyup 中，只要不松开，就一直选中，而官方放在 transitionend 中，选中后自动释放，也许更符合实际吧！
+- Array.from() 将类数组对象或者可遍历对象转为数组，基本的要求就是要具有 length 属性
