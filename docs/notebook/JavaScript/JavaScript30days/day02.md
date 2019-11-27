@@ -33,7 +33,7 @@ transition 是一个简写属性，用于设置 4 个过渡属性：
 
 - transition-property：操作的属性名，
 - transition-duration：完成过渡所需的时间
-- transition-timing-function：过渡过程中的速度曲线，例如上面的贝塞尔曲线
+- transition-timing-function：过渡过程中的速度曲线，例如上面的贝塞尔曲线，用来在 0.05 秒的事件实现一个逼真的回弹效果
 - transition-delay：何时开始过渡
 
 #### 角度

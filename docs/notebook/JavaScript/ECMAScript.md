@@ -60,9 +60,67 @@
   // 开启 'use strict'; 后，就会被限制在 eval 内了
   ```
 
-  
-
 - 对象不能有重名的属性
+
+#### JSON
+
+1. JSON.stringify(obj/arr)：js 对象(数组)转为 json 对象(数组)
+
+2. JSON.parse(json)：json 对象(数组)转为 js 对象(数组)
+
+   ```javascript
+   var obj = {username: 'zzl'};
+   obj = JSON.stringify(obj);	// string
+   obj = JSON.parse(obj);	// object
+   ```
+
+#### Object
+
+1. Object.create(prototype, [descriptors])
+
+   - 以指定对象为原型创建新对象
+   - 为新对象指定新的属性，并对属性进行描述
+     - value：指定值
+     - writable：当前属性是否可修改，默认 false
+     - configurable：当前属性是否可删除，默认 false
+     - enumerable：当前属性是否可 for in 枚举，默认 false
+
+   ```javascript
+   var obj = {username: 'zzl'};
+   var creatObj = Object.create(obj, {
+      sex: {
+          value: '男',
+          writable: true,
+          configurable: true
+      }
+   });
+   ```
+
+   
+
+2. Object.defineProperties(object, descriptors)
+
+   - 为指定对象定义扩展多个属性
+     - get：用来获取当前属性值的回调函数
+     - set：修改当前属性值的触发回调函数，并且实参即为修改后的值
+   - 存取器属性：setter，getter 一个用来存值，一个用来取值
+
+   ```javascript
+   var obj = {username: 'zzl'}
+   Object.defineProperties(obj, {
+       sex: {
+           get: function(){
+               return "男"
+           },
+           // 只有声明 set 才能修改属性值
+           set: function(data){
+               console.log("你修改了属性值" + data);
+           }
+       }
+   })
+   ```
+
+   对象本身也有 get set 方法
 
 
 

@@ -266,7 +266,7 @@ A 标签有 7 个属性：x半径、y半径、角度、 长弧(1)或短弧(0)、
 <text x="100" y="100" font-size="20" text-anchor="middle">SVG</text>
 ```
 
-- 默认 x 和 y 为文字的左下角坐标
+- 默认 x 和 y 为文字的偏左下角坐标
 - `text-anchor="middle"` 将 x y 设为文字中下角的坐标；"start"：左下角（默认）；"end"：右下角
 
 #### image 标签
