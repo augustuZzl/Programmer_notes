@@ -151,8 +151,6 @@ array.unshift(item, ...);	// 插入数组头部
 array.slice(start, end);	// 返回这个范围的子数组
 array.splice(start, deleteCount);	// 删除原数组 start 位置开始的 deleteNum 个元素
 array.sort([fun]);	// 根据可选的排序函数排序，如果没有函数，则默认按照字符顺序比较（注意!!!）
-
-
 ```
 
 
@@ -297,6 +295,8 @@ obj.details.color;	// "yello"
 obj["details"]["size"];	// 18
 ```
 
+ JavaScript 是一种基于原型的编程语言，并没有 class 语句，而是把函数用作类 
+
 下面创建一个对象原型 Person 以及这个原型的实例 you
 
 ```javascript
@@ -305,10 +305,151 @@ function Person(name, age){
     this.name = name;
     this.age = age;
 }
+Person.prototype.desc = function(){
+    return this.name + this.age;
+}
+
 // 实例
 var you = new Person("zzl", 23);
-
 // 访问属性
 you.name;	// "zzl"
 ```
+
+-  `Person.prototype` 是一个可以被`Person`的所有实例共享的对象，它是一个名叫原型链（prototype chain）的查询链的一部分：当你试图访问一个 `Person` 没有定义的属性时，解释器会首先检查这个 `Person.prototype` 来判断是否存在这样一个属性。所以，任何分配给 `Person.prototype` 的东西对通过 `this` 对象构造的实例都是可用的
+- 这个特性功能十分强大，这允许你在程序中的任何时候修改原型（prototype）中的一些东西，也就是说你可以在运行时(runtime)给已存在的对象添加额外的方法  
+-  这条链的根节点是 `Object.prototype` 
+
+### 函数
+
+一个最简单的函数：
+
+```javascript
+function sum(x, y){
+    const res = x + y;
+    return res;
+}
+
+const sum = function(x, y){
+    const res = x + y;
+    return res;
+}
+
+sum(1, 2);	// 3
+// 没有提供足够的参数，缺少的参数被 undefined 代替
+sum(1);	// NaN
+// 提供的多余参数被忽略
+sum(1, 2, 3);	// 3
+```
+
+我们传入的参数实际上是被放入了函数体中一个名为 arguments 的内部对象，这个对象类似于数组。
+
+```javascript
+function sum(x, y){
+    let res = 0;
+    for(let i = 0; i < arguments.length; i++){
+        res += arguments[i];
+    }
+    return res;
+}
+sum(1, 2, 3, 4);	// 10
+```
+
+函数中还有个**剩余参数操作符**同样拥有这个功能，就像 Java 中的多参数  Varargs 
+
+```javascript
+function sum(...args){
+    let res = 0;
+    for(let value of args){
+        sum += value;
+    }
+    return res;
+}
+sum(1, 2, 3, 4);	// 10
+```
+
+ 立即调用函数： IIFE——Immediately Invoked Function Expression 
+
+```javascript
+var a = 1;
+var b = 2;
+(function() {
+    var b = 3;
+    a += b;
+})();
+
+a; // 4
+b; // 2
+```
+
+### 闭包
+
+一个变量的作用域无非就是两种：全局变量和局部变量。一个函数内的变量是无法在外部获取的，那我们如果需要这个变量呢？
+
+```javascript
+function foo1(){
+    
+    const n = 1;
+    
+    function foo2(){
+        alert(n);
+    }
+    return foo2;
+    
+}
+```
+
+上面的代码中，函数 foo2 可以访问函数 foo1 中的所有变量，所以把函数 foo2 返回便可以得到函数 foo1 的内部变量了：
+
+```javascript
+const returnFoo2 = foo1();
+returnFoo2();	// 1
+```
+
+上面这就是**闭包**，通俗来讲就是：能够读取其他函数内部变量的函数。也就是定义在其他函数内部的函数。所以闭包就是将函数内部和外部打通了。
+
+那么闭包有什么用途呢？除了读取一个函数内部的变量外，还可以保存这些变量：
+
+```javascript
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

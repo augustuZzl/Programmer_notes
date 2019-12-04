@@ -6,7 +6,7 @@
 
 ### 图形
 
-- [SVG](notebook/Graphical/SVG)
+- [SVG](notebook/Graphical/SVG/)
 - [Canvas](notebook/Graphical/Canvas)
 - [WebGL](notebook/Graphical/WebGL)
 - [ThreeJs](notebook/Graphical/threejs)
