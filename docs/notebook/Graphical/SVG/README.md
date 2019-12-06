@@ -3,4 +3,4 @@ SVG 是一种用 XML 定义的语言，用来描述二维矢量及矢量/栅格�
 - [SVG 基础](notebook/Graphical/SVG/SVG基础)
 - [实战一：关系图](notebook/Graphical/SVG/关系图)
 - [实战二：测距线](notebook/Graphical/SVG/测距线)
-- [Snap.svg.js](notebook/Graphical/SVG/Snap)
+- [Snap.svg.js：像 jQuery 那样操作 svg](notebook/Graphical/SVG/Snap)
