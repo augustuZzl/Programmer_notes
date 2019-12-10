@@ -11,3 +11,7 @@
 - [05：秒杀功能实现](notebook/SSM/【SpringBoot商城秒杀系统05】秒杀功能实现)
 - [06：Jmeter模拟用户秒杀](notebook/SSM/【SpringBoot商城秒杀系统06】Jmeter模拟用户秒杀)
 - [07：秒杀优化](notebook/SSM/【SpringBoot商城秒杀系统07】秒杀优化)
+
+### 实战
+
+- [SpringBoot+MongoDB上传图片](notebook/SSM/springboot-mongodb上传图片)
