@@ -280,7 +280,7 @@ person.node.addEventListener("click", function(){
         //利用Snap.deg()函数。把弧度值转换成角度值
         m.rotate(Snap.deg(deg / 180 * Math.PI), x, y)
         m.translate(x - 110, y - 30)
-        person.transform(str)
+        person.transform(m)
     }, 2000)
 })
 ```
