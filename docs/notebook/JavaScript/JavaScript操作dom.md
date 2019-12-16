@@ -43,6 +43,39 @@ Text 表示文本节点，它包含的是纯文本内容，不能包含 html 代
 - nodeValue 为文本内容
 - 父节点是 element，没有子节点
 
+#### Attr
+
+Attr 类型表示元素的属性，相当于元素的 attribute 属性中的节点
+
+- nodeType 为 2
+- nodeName 是属性的名称
+- nodeValue 是属性的值
+- parentNode 为 null 
+
+#### Document
+
+Document 表示文档，在浏览器中，document 对象时 HTMLDocument 的一个实例，表示整个页面，他同时也是 window 对象的一个属性。
+
+- nodeType 为 9
+- nodeName 为 #document
+- nodeValue 为 null
+- parentNode 为 null
+- 子节点可能是一个 DocumentType 或 Element
+
+### 节点创建 API
+
+#### creatElement
+
+creatElement 通过传入一个标签名来创建一个元素：
+
+`const div = document.creatElement("div")`
+
+#### creatTextNode
+
+creatTextNode 用来创建一个文本节点：
+
+`const textNode = document.creatTextNode("这是一个文本节点")`
+
 
 
 
