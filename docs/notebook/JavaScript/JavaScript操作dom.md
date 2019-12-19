@@ -62,6 +62,15 @@ Document 表示文档，在浏览器中，document 对象时 HTMLDocument 的一
 - parentNode 为 null
 - 子节点可能是一个 DocumentType 或 Element
 
+#### DocumentFragment
+
+DocumentFragment 表示一种轻量级的文档，可能当作一个临时的仓库用来保存可能会添加到文档中的节点。
+
+- nodeType 为 11
+- nodeName 为 #document-fragment
+- nodeValue 为 null
+- parentNode 为 null
+
 ### 节点创建 API
 
 #### creatElement
@@ -76,13 +85,51 @@ creatTextNode 用来创建一个文本节点：
 
 `const textNode = document.creatTextNode("这是一个文本节点")`
 
+#### cloneNode
 
+cloneNode 是用来返回调用方法的节点的一个副本，它接收一个 bool 参数，用来表示是否复制子元素
 
+由于是对节点的复制，所以可能会产生许多问题：
 
+- 如果被复制的元素有 id，那么由于 id 的唯一性，别忘了修改复制节点的 id
+- 如果被复制的元素绑定了事件，那么会产生两种情况：
+  - 通过 addEventListener 或 onclick 绑定的事件，副本节点不会绑定
+  - 通过内联方式绑定的事件(`<div onclick="do()"><div>`)，副本节点会绑定
 
+#### creatDocumentFragment
 
+creatDocumentFragment 主要在添加大量节点时会用到。
 
+每创建一个新元素，然后添加到 DOM 树中，这个过程会造成浏览器回流(即元素的大小和位置都会被重新计算)，所以大量的元素就会导致性能问题。
 
+由于 DocumentFragment 不是 DOM 树的一部分，他是保存在内存中的，先将大量节点添加到 DocumentFragment 中，最后再将 DocumentFragment 添加到 DOM 树中
+
+```javascript
+document.querySelector("button").addEventListener("click", () => {
+    const list = document.querySelector("list")
+    const fragment = document.creatDocumentFragment()
+    
+    for(let i = 0; i < 100; i++){
+        const li = document.creatElement("li")
+        li.textContent = i
+        fragment.appendChild(li)
+    }
+    
+    list.appendChild(fragment)  
+})
+```
+
+### 页面修改 API
+
+前面创建的节点是一个孤立的节点，它并不存在 DOM 树中，还需要使用 appEndChild() 等方法添加到文档树中
+
+#### appendChild
+
+#### insertBefore
+
+#### removeChild
+
+#### replaceChild
 
 
 
