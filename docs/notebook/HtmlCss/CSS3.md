@@ -179,20 +179,18 @@ CSS3 结构类也称为 :nth 选择器
   }
   <div>我是div的内容</div> 
   ```
-```
-  
   在浏览器中显示：
-  
+
   `我是插在前面的内容我是div的内容`
-  
+
   在控制台的样式为：
-  
+
   ```html
   <div>
-  	::before
-  	"我是div的内容"
+  ::before
+  "我是div的内容"
   </div>
-```
+  ```
 
 - Element::after：在元素的内容后面插入新的内容，多用于**清除浮动**
 
@@ -287,7 +285,8 @@ border-radius：可以指定 4 个值为边框添加圆角
 <div></div>
 ```
 
-<div style="width: 200px;height: 100px;border: 1px solid red;border-radius: 50px 40% 5em 5rem;"><div>
+<div style="width: 200px;height: 100px;border: 1px solid red;border-radius: 50px 40% 5em 5rem;"></div>
+
 
 #### 盒阴影
 
@@ -312,13 +311,15 @@ box-shadow：可以设置一个或多个下拉阴影的框，是一个复合属�
 - 模糊度：从边框向两端模糊 5px 的距离
 - 扩展：从边框向两端多出 5px 的距离
 
-<div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow;">asd<div>
+<div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow;">asd</div>
+
 
 再看内阴影效果：
 
 `box-shadow: 20px 10px 5px 5px yellow inset;`
 
-<div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow inset;">asd<div>
+<div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow inset;">asd</div>
+
 
 #### 边界图片
 
@@ -422,7 +423,6 @@ background:linear-gradient(color-stop1, color-stop2, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:linear-gradient(red, green, blue)"></div>
-
 ##### 从左到右
 
 background:linear-gradient(to end-direction, color-stop1, color-stop2, ...);
@@ -439,7 +439,6 @@ background:linear-gradient(to end-direction, color-stop1, color-stop2, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:linear-gradient(to right, red, green, blue)"></div>
-
 ##### 对角方向
 
 background:linear-gradient(to end-level end-vertical, color-stop1, color-stop2, ...);
@@ -456,7 +455,6 @@ background:linear-gradient(to end-level end-vertical, color-stop1, color-stop2, 
 ```
 
 <div style="width: 200px;height: 100px;background:linear-gradient(to right bottom, red, green, blue)"></div>
-
 ##### 角度
 
 background:linear-gradient(angle, color-stop1, color-stop2,...);
@@ -472,20 +470,119 @@ background:linear-gradient(angle, color-stop1, color-stop2,...);
 
 
 <div style="width: 200px;height: 100px;background:linear-gradient(45deg, red, green, blue)"></div>
+##### 多颜色控制
+
+控制每种颜色的比例
+
+background:linear-gradient(angle, color1 length|%, color2 length|%, ...);
+
+以下例子：20%位置处为红色、30%位置处为绿色、100%位置为蓝色
+
+```html
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+        background:linear-gradient(90deg, red 20%, green 30%, blue 100%);
+    }
+</style>
+<div></div>
+```
+
+<div style="width: 200px;height: 100px;background:linear-gradient(90deg, red 20%, green 30%, blue 100%);"></div>
+
+##### 重复渐变
+
+background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
+
+```html
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+        background:repeating-linear-gradient(90deg, red 0%, green 20%, red 40%);
+    }
+</style>
+<div></div>
+```
+
+<div style="width: 200px;height: 100px;background:repeating-linear-gradient(90deg, red 0%, green 20%, red 40%);"></div>
 
 #### 径向渐变
 
+从起点到终点颜色从内到外进行圆形渐变，用法与线性渐变类似
 
+语法格式：background:redial-gradient(center, shape, size, color1, color2, ...);
 
+##### 默认样式
 
+默认形状为椭圆形
 
+```html
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+        background:radial-gradient(red, green, blue);
+    }
+</style>
+<div></div>
+```
 
+<div style="width: 200px;height: 100px;background:radial-gradient(red, green, blue);"></div>
 
+##### 颜色控制
 
+```html
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+        background:radial-gradient(red 30%, green 70%);
+    }
+</style>
+<div></div>
+```
 
+<div style="width: 200px;height: 100px;background:radial-gradient(red 30%, green 70%);"></div>
 
+##### 圆形
 
+默认为椭圆形，还可以修改为圆形
 
+```html
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+        background:radial-gradient(circle, red, green, blue);
+    }
+</style>
+<div></div>
+```
+
+<div style="width: 200px;height: 100px;background:radial-gradient(circle, red, green, blue);"></div>
+
+##### 尺寸大小
+
+语法：background:radius-gradient(size, color1, color2, ...);
+
+size 取以下 4 个值：
+
+- closest-side：最近边
+- closest-corner：最近角
+- farthest-side：最远边
+- farthest-corner：最远角
+
+```html
+此代码不通
+<div style="
+     width: 200px;
+     height: 100px;
+     background:radial-gradient(30% 70%, circle, closest-side, red, green);
+     ">
+</div>
+```
 
 
 

@@ -9,7 +9,7 @@
 
 - [SVG](notebook/Graphical/SVG/)
 - [Canvas](notebook/Graphical/Canvas)
-- [ThreeJs](notebook/Graphical/threejs)
+- [three.js](notebook/Graphical/THREEJS/)
 
 ### 框架
 

@@ -1,10 +1,4 @@
-### Three.js
-
-Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。
-
-官方文档：  https://threejs.org/ 
-
-### Four Components
+### 四大组件
 
 #### 一：场景 Scene
 
@@ -16,7 +10,7 @@ Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。
 
 浏览器中所显示的就是相机所拍摄的场景
 
-1. 透视相机：类似于人眼，观察的事物是远大近小的： THREE.PerspectiveCamera 
+1. 透视相机：类似于人眼，观察的事物是远大近小的： 
 
    `THREE.PersrectiveCamera(fov, aspect, near, far)`
 
@@ -28,7 +22,7 @@ Three.js 是一个封装好的 WebGL 库，他使 WebGL 的学习更简单。
 
    表示视角为 40 度，充满整个窗口，最近看的距离为 1，最远能看到 100
 
-2. 正投影相机：远近一样大： THREE.OrthographicCamera 
+2. 正投影相机：远近一样大： 
 
    ` THREE.OrthographicCamera( left, right, top, bottom, near, far ) `
 
@@ -92,6 +86,14 @@ document.body.appendChild(renderer.domElement);
 - renderer.domElement：即 canvas 标签
 
 #### 添加几何体
+
+THREE.Geometry() 几何体是一个包含三维数据的数据结构：
+
+- 点：this.vertices = []
+- 颜色：this.colors = []
+- 面：this.faces = []
+
+Metrial 材质指视觉上的效果，色彩、纹理、光滑度、反射率等等
 
 ```javascript
 // 立方体
@@ -164,13 +166,15 @@ camera.position.z = 5;
 </html>
 ```
 
-### Point、Line、Surface
+### 点、线、面
 
-#### Coordinate
+在 three.js 的三维世界中，都是由点组成的，两个点连成直线，三个点连成三角形，三角形构成物体
+
+#### 坐标系
 
 threejs 使用右手坐标系，即 x 轴向右，y 轴向上，z 轴从屏幕指向你
 
-#### Point
+#### 点
 
 先看 threejs 对点函数的定义：
 
@@ -193,7 +197,7 @@ var point2 = new THREE.Vector3();
 point2.set(1, 2, 4);
 ```
 
-#### Line
+#### 线
 
 我们知道两点确定一条直线，下面就来绘制线
 
@@ -231,6 +235,7 @@ LineBasicMaterial() 有多个参数，不只 color 一个：
 - linewidth：线条的宽度，默认是 1
 - linecap：线条两端的外观，默认是圆角。在线条较粗的时候才能看见
 - linejoin：两条线连接点处的外观，默认是圆角
+- vertexColors：是否使用顶点颜色，根据顶点颜色进行插值
 
 After material we need a **Geometry** or **BufferGeometry** with some vertices(顶点), BufferGeometry may be more performant, but for simplicity we use Geometry.
 
@@ -258,7 +263,7 @@ renderer.render(scene, camera);
 
 Over, open in browser.
 
-#### Surface
+#### 面
 
 画一个棋盘
 
@@ -332,11 +337,11 @@ function animate(){
 }
 ```
 
-### Power of Light
+### 光
 
 有了光，就不再黑暗。光的基类 THREE.Light()。下面看实用的派生类：
 
-####  AmbientLight
+####  AmbientLight：环境光
 
 环境光是经过多次反射而来的光，无法确定其最初的方向，所以所有的物体都将表现为相同的明暗程度。他的构造函数：THREE.AmbientLight(color, intensity)，参数分别是颜色和强度(默认 1，即强度 100%)
 
@@ -345,13 +350,13 @@ var light = new THREE.AmbientLight(0xff0000);
 scene.add(light);
 ```
 
-####  PointLight 
+####  PointLight ：点光源
 
 这种光源放出的光线来自于同一点，方向辐射四面八方，例如灯泡发出的光。
 
 构造函数：THREE.PointLight(color, intensity, distance); distance 表示光源强度经过 distance 距离逐渐衰减至 0。默认值为 0，即光源强度不衰减。
 
-#### SpotLight
+#### SpotLight：聚光灯
 
 聚光灯，这种光源从椎体射出，在被照射的物体上产生聚光效果。
 
@@ -386,7 +391,7 @@ function initLight() {
 }
 ```
 
-#### DirectionalLight
+#### DirectionalLight：方向光
 
 方向光又称平行光，是一种没有衰减的光线，类似于太阳光的效果，构造函数：THREE.DirectionalLight(color, intensity).
 
@@ -404,7 +409,7 @@ function initLight() {
 
 **Tips**：当场景中有多种光时，颜色会叠加，比如绿光 + 红光 = 黄光
 
-### Texture
+### Texture：贴图
 
 在 3D 世界中，纹理就是贴图。先看看复杂的构造函数：
 
@@ -434,4 +439,52 @@ function initObject() {
 ```
 
 **使用 Canvas 作为纹理**：
+
+### 导入模型
+
+3D 模型有数百种文件格式可用，threejs 也提供了许多加载程序。例如加载 glTF 模型
+
+首先需要引入加载文件： three/examples/js/loaders/GLTFLoader.js
+
+```javascript
+const loader = new THREE.GLTFLoader()
+loader.load('obj/Horse.glb', function(gltf){
+    scene.add(gltf.scene)
+}, undefined, function(error){
+    console.error( error )
+})
+
+// 如果物体不可见，可尝试设置位置、灯光等因素
+
+// 将场景设为白色，便于显示
+renderer.setClearColor(0xffffff)
+
+// 添加环境光，显示出物体本身的色彩
+const light = new THREE.AmbientLight(0xffffff);
+scene.add(light);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
