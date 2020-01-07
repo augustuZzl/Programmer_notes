@@ -30,3 +30,29 @@
 若 $A \subset B$ 且 $A \neq B$ ,则称 $A$ 是 $B$ 的真子集,记做 $A \subseteq B$.
 
 不包含任何元素元素的集合称为空集,记做 $\emptyset$ ,规定空集是任何集合的子集,即 $\emptyset \subset A$
+
+集合的基本运算有这几种:交、并、补
+
+设 $A、B$ 是两个集合:
+
+- 所有属于 $A$ 或者属于 $B$ 的元素组成的集合,称为 $A$ 与 $B$ 的并集(简称并),记做 $A \bigcup B$
+
+  $A \bigcup B = \{x|x \in A 或 x \in B \}$
+
+- 即属于 $A$ 又属于 $B$ 的元素组成的集合,称为 $A$ 与 $B$ 的交集(简称交),记做 $A \bigcap B$
+
+  $A \bigcap B = \{x|x \in A 且 x \in B \}$
+
+- 所有属于 $A$ 而不属于 $B$ 的元素组成的集合,称为 $A$ 与 $B$ 的差集(简称差),记做 $A  \backslash  B$
+
+  $A  \backslash  B=\{x|x \in A 且x \notin B\}$
+
+设集合 $I$ ,集合 $A$ 是 $I$ 的子集,我们就称集合 $I$ 为全集或基本集,称 $I \backslash A$ 为 $A$ 的余集或补集,记做 $A^C$ .例如在是实数集 $R$ 中,集合 $A=\{x|0<x\leq1\}$ 的余集就是 $A^C=\{x|x\leq0或x>1\}$
+
+设 $A、B、C$ 为任意 3 个集合,则有以下法则:
+
+1. 交换律：$A\bigcup B=B\bigcup A$，$A\bigcap B=B\bigcap A$
+2. 结合律：$(A\bigcup B)\bigcup C=A\bigcup (B\bigcup C)$，$(A\bigcap B)\bigcap C=A\bigcap (B\bigcap C)$
+3. 分配律：$(A\bigcup B)\bigcap C=(A\bigcap C)\bigcup (B\bigcap C)$，$(A\bigcap B)\bigcup C=(A\bigcup C)\bigcap (B\bigcup C)$
+4. 对偶律：$(A\bigcup B)^C=A^C\bigcap B^C$，$(A\bigcap B)^C=A^C\bigcup B^C$
+
