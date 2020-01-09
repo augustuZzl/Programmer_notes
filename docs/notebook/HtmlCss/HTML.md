@@ -283,11 +283,20 @@ a 标签在电子邮件方面也有作用：
     <img src="asd" alt="图片显示错误时显示的文本" title="鼠标在图片上悬浮时显示此文本">
 </div>
 
+#### 表单标签 `<form>`
 
+表单可以把用户输入的数据传送到服务器端，比如实现登录注册功能等
 
+```html
+<form action="/sign" method="post">
+    用户名：<input type="text" name="username">
+    密码：<input type="text" name="password">
+</form>
+```
 
-
-
+- action：后台处理请求的地址
+- method：提交的方法，get/post 
+- name：后台通过 name 来获取值
 
 
 

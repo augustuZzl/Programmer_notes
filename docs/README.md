@@ -5,11 +5,12 @@
 - [HTML/CSS](notebook/HtmlCss/)
 - [JavaScript](notebook/JavaScript/)
 
-### 图形
+### 图形动画
 
 - [SVG](notebook/Graphical/SVG/)
 - [Canvas](notebook/Graphical/Canvas)
 - [three.js](notebook/Graphical/THREEJS/)
+- [TweenMax.js](notebook/Graphical/TweenMaxJs/)
 
 ### 框架
 
