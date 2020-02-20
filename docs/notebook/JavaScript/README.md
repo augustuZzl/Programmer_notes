@@ -3,7 +3,8 @@
 - [JavaScript 基础](notebook/JavaScript/JavaScript基础)
 - [JavaScript 进阶](notebook/JavaScript/JavaScript进阶)
 - [ECMAScript](notebook/JavaScript/ECMAScript)
-- [JavaScript 操作 Dom](notebook/JavaScript/JavaScript操作dom)
+- [JavaScript Dom](notebook/JavaScript/JavaScriptDom)
+- [JavaScript 原型](notebook/JavaScript/JavaScript原型)
 
 ### 实战
 

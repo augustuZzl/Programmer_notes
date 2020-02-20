@@ -287,7 +287,6 @@ border-radius：可以指定 4 个值为边框添加圆角
 
 <div style="width: 200px;height: 100px;border: 1px solid red;border-radius: 50px 40% 5em 5rem;"></div>
 
-
 #### 盒阴影
 
 box-shadow：可以设置一个或多个下拉阴影的框，是一个复合属性
@@ -313,13 +312,11 @@ box-shadow：可以设置一个或多个下拉阴影的框，是一个复合属�
 
 <div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow;">asd</div>
 
-
 再看内阴影效果：
 
 `box-shadow: 20px 10px 5px 5px yellow inset;`
 
 <div style="width: 200px;height: 100px;background: red;box-shadow: 20px 10px 5px 5px yellow inset;">asd</div>
-
 
 #### 边界图片
 
@@ -490,7 +487,6 @@ background:linear-gradient(angle, color1 length|%, color2 length|%, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:linear-gradient(90deg, red 20%, green 30%, blue 100%);"></div>
-
 ##### 重复渐变
 
 background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
@@ -507,7 +503,6 @@ background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:repeating-linear-gradient(90deg, red 0%, green 20%, red 40%);"></div>
-
 #### 径向渐变
 
 从起点到终点颜色从内到外进行圆形渐变，用法与线性渐变类似
@@ -530,7 +525,6 @@ background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:radial-gradient(red, green, blue);"></div>
-
 ##### 颜色控制
 
 ```html
@@ -545,7 +539,6 @@ background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:radial-gradient(red 30%, green 70%);"></div>
-
 ##### 圆形
 
 默认为椭圆形，还可以修改为圆形
@@ -562,7 +555,6 @@ background:repeating-linear-gradient(color1 length|%, color2 length|%, ...);
 ```
 
 <div style="width: 200px;height: 100px;background:radial-gradient(circle, red, green, blue);"></div>
-
 ##### 尺寸大小
 
 语法：background:radius-gradient(size, color1, color2, ...);
@@ -582,6 +574,194 @@ size 取以下 4 个值：
      background:radial-gradient(30% 70%, circle, closest-side, red, green);
      ">
 </div>
+```
+
+### 文本
+
+#### 文本阴影
+
+语法格式：text-shadow:h-shadow v-shadow blur color;
+
+参数释义：水平偏移 竖直偏移 模糊距离 颜色
+
+```html
+<style>
+    h1 {
+        text-shadow: 5px 5px 2px red;
+    }
+</style>
+
+<h1>text-shadow</h1>
+```
+
+<h1 style="text-shadow: 5px 5px 2px red;">text-shadow</h1>
+
+#### 文本换行
+
+对于英文，浏览器会根据容器尺寸，选择在半角空格或连字符处换行；
+
+对于中文，浏览器会在文字或标点符号处换行；
+
+例如：
+
+```html
+<div style="width:200px;">
+    Whatever is worth doing is worth doing well.任何值得做的，就把它做好。
+</div>
+```
+
+<div style="width:200px;border:1px solid;">
+    Whatever is worth doing is worth doing well.任何值得做的，就把它做好。
+</div>
+
+但是看下面这种情况：
+
+```html
+<div style="width:200px;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+```
+
+<div style="width:200px;border:1px solid;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+
+浏览器的宽度无法放下整个单词或者链接，那么就会撑破容器，当然我们可以使用 overflow 来处理：
+
+1，隐藏超出部分：
+
+```html
+<div style="width:200px; overflow:hidden;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+```
+
+<div style="width:200px;overflow:hidden;border:1px solid;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+
+2，添加滚动条：
+
+```html
+<div style="width:200px; overflow:auto;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+```
+
+<div style="width:200px;overflow:auto;border:1px solid;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+
+现在来看我们的主角：3 种换行属性
+
+- word-wrap
+- word-break
+- word-space
+
+##### word-wrap
+
+word-wrap 可以实现断词换行，有两种取值：normal、break-word
+
+- normal：与浏览器原先处理方式相同，相当于没有设置
+- break-word：允许断词换行
+
+对我们上面的长单词例子添加此属性：
+
+```html
+<div style="width:200px;word-wrap:break-word;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+```
+
+<div style="width:200px;border:1px solid;word-wrap:break-word;">
+    请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+</div>
+
+执行过程：到【这个单词:】处，发现后面的单词无法再此行容下，在标点符号【:】处换行，因此第一行出现大量空白，长单词到了第二行发现仍然容不下，于是应用 break-word 来断词换行，因此长单词被截断了，不在撑破容器。
+
+##### word-break
+
+word-break 可以设置浏览器自动换行的方式，有 3 中取值：normal、break-all、keep-all
+
+- normal：等于没设
+
+- break-all：将浏览器的换行方式设为根据容器尺寸允许断词换行，那与上面的 word-wrap:break-word 有什么区别呢？
+
+  还是那上面的那个例子，看看区别：
+
+  ```html
+  <div style="width:200px;word-break:break-all;">
+      请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+  </div>
+  ```
+
+  <div style="width:200px;border:1px solid;word-break:break-all;">
+      请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+  </div>
+
+  将两个放在一起直观看看：左边 word-wrap:break-word，右边 word-break:break-all
+
+  <div style="width:500px;height:150px;">
+      <div style="width:200px;border:1px solid;word-wrap:break-word;float:left;">
+          请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+      </div>
+      <div style="width:200px;border:1px solid;word-break:break-all;float:right;">
+          请看看这个单词：abcdefghigklmnopqresuvwxyz；请访问这个链接：https://augustuzzl.github.io/Programmer_notes/
+      </div>
+  </div>
+
+  很明显的看出区别：左边是沿用了浏览器的默认换行方式，因此第一行出现大量空白，而右边是改变浏览器的换行方式，根据容器尺寸换行，忽略了标点符号
+
+- keep-all：不允许断词，在英文的情况下等同于 normal，在中文的情况下：只会在标点符号处换行
+
+  ```html
+  <div style="width:200px;word-break:keep-all;">
+      你说为什么这句话说了这么久还没说完呢？我不知道。
+  </div>
+  ```
+
+  <div style="width:200px;border:1px solid;word-break:keep-all;">
+      你说为什么这句话说了这么久还没说完呢？我不知道。
+  </div>
+
+##### white-space
+
+用来设置空白符和换行符，可以取值 normal、pre、nowrap、pre-line、pre-wrap
+
+- normal：会忽略多余空白符和换行符
+- pre：会保留空白符和换行符，相当于 `<pre>` 标签
+- nowrap：不会自动换行，当使用 text-overflow 属性时需要配合 white-space:nowrap 和 overflow:hidden 才起作用
+- pre-line：忽略多余空白符，但会保留换行符，会自动换行
+- pre-wrap：与 pre-line 区别是会保留多余空白符
+
+##### 总结
+
+标签里展示源代码时，遇到有 url 属性时会很长，导致撑破页面（尤其是移动端），可以用white-space: pre-wrap 加上 word-wrap: break-word;
+
+标签外常见的强制换行方式是 overflow:hidden; 加上 word-wrap: break-word;
+
+
+强制不换行可以 white-space: nowrap; 加上 word-break: keep-all;
+
+#### 字体 @font-face
+
+@font-face 有 4 个属性
+
+- font-family：引用的字体
+- src：字体的存放路径
+- [font-weight]：粗体等
+- [font-style]：斜体等
+
+```html
+<style>
+    @font-face {
+        font-family: 'myFont';
+        src: url('myFont.eot');
+    }
+    h1 {
+        font-family: 'muFont';
+    }
+</style>
 ```
 
 

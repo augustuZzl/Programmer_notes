@@ -19,7 +19,12 @@
 - [Node.js](notebook/Nodejs)
 - [Vue.js](notebook/Vuejs/)
 
+### 技术
+
+- [PS](notebook/Technology/PS使用总结)
+
 ### 考研
 
 - [数学](notebook/Math/)
+- [操作系统](notebook/408/操作系统)
 
