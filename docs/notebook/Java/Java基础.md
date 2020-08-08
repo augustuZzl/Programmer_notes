@@ -356,3 +356,104 @@ public class Main {
 
 ![](pic\参数传递.png)
 
+#### float 和 double
+
+Java 不能隐式执行向下转型，因为这会使精度降低。
+
+`1.1` 字面量属于 `double` 类型，不能直接将其赋值给 `float` 变量，因为这是向下转型
+
+`float f = 1.1; // Incompatible types, Required:float,Found:double `
+
+可以使用：`float f = 1.1f`
+
+#### 隐式类型转换
+
+先看下面的例子：
+
+```java
+short s = 1;
+// s = s + 1;
+```
+
+这是因为运算的时候，s 与 1 运算得到的结果是 int 类型的，这时如果在赋值给 short 变量，这是不允许的。这时我们可以使用强制类型转换：`s = (short) (s + 1)`。
+
+但是在执行某些特殊的运算时，他会自动进行向下转型：
+
+```java
+s += 1;
+s++;
+```
+
+但他的本质还是：`i = (type of i) (i + j)`
+
+#### switch
+
+`switch` 支持类型：`char, byte, short, int, Character, Byte, Short, Integer, String, or an enum`
+
+从 Java7 开始，可以在 `switch` 条件判断语句中使用 `String` 对象
+
+```java
+String s = "a";
+switch (s) {
+    case "a":
+        System.out.println("aaa");
+        break;
+    case "b":
+        System.out.println("bbb");
+        break;
+}
+```
+
+我们使用 `jad -sjava test.class` 将 class 文件反编译一下，看看他实际是怎么操作的：
+
+```java
+public class Test01 {
+
+    public Test01() {}
+
+    public static void main(String args[]) {
+        String s = "a";
+        String s1 = s;
+        byte byte0 = -1;
+        switch (s1.hashCode()) {
+            case 97: // 'a'
+                if(s1.equals("a"))
+                    byte0 = 0;
+                break;
+
+            case 98: // 'b'
+                if(s1.equals("b"))
+                    byte0 = 1;
+                break;
+        }
+        switch (byte0) {
+            case 0: // '\0'
+                System.out.println("aaa");
+                break;
+
+            case 1: // '\001'
+                System.out.println("bbb");
+                break;
+        }
+    }
+}
+```
+
+说实话，我还是没有明白，为什么要添加 `s1`， `byte0` 这个变量。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
